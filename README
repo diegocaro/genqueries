@@ -8,3 +8,7 @@ For each kind of query, choose a random change and generate a query
 
 3. Same nodes and time for all queries ( genqueries-all.sh )
 Choose k random changes, and create all queries over that set.
+
+
+
+Note that the input of the graph is a tgs or tgl format.

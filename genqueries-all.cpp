@@ -97,10 +97,10 @@ void printq(vector<struct change> &cv, int kindquery, int rangesize, FILE *f) {
 			case 5:
 			fprintf(f,"%u %u %u\n", cv[i].to, t, cv[i].t);
 			break;
-			case 6: // CELL 
+			case 6: // EDGE 
 			fprintf(f,"%u %u %u\n", cv[i].from, cv[i].to, cv[i].t);
 			break;
-			case 7: // CELL RANGE
+			case 7: // EDGE RANGE
 			case 8:
 			fprintf(f,"%u %u %u %u\n", cv[i].from, cv[i].to, t, cv[i].t);
 			break;
@@ -115,9 +115,9 @@ void printq(vector<struct change> &cv, int kindquery, int rangesize, FILE *f) {
 
 int main(int argc, char *argv[]) {
 	map<string,int> kind;
-	kind["cell"] = 6;
-	kind["cell_weak"] = 7;
-	kind["cell_strong"] = 8;
+	kind["edge"] = 6;
+	kind["edge_weak"] = 7;
+	kind["edge_strong"] = 8;
 
 	kind["dirnei"] = 0;
 	kind["revnei"] = 1;
