@@ -1,0 +1,10 @@
+There are three strategies to generate queries of a time-varying graph.
+
+1. Random ( genqueries-random.sh )
+Choose a time and a node at random, for all kind of queries.
+
+2. Different items for all queries ( genqueries.sh )
+For each kind of query, choose a random change and generate a query
+
+3. Same nodes and time for all queries ( genqueries-all.sh )
+Choose k random changes, and create all queries over that set.
