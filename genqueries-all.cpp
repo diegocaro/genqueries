@@ -98,6 +98,7 @@ void printq(vector<struct change> &cv, int kindquery, int rangesize, FILE *f) {
 			fprintf(f,"%u %u %u\n", cv[i].to, t, cv[i].t);
 			break;
 			case 6: // EDGE 
+			case 10: // EDGE NEXT
 			fprintf(f,"%u %u %u\n", cv[i].from, cv[i].to, cv[i].t);
 			break;
 			case 7: // EDGE RANGE
@@ -118,6 +119,7 @@ int main(int argc, char *argv[]) {
 	kind["edge"] = 6;
 	kind["edge_weak"] = 7;
 	kind["edge_strong"] = 8;
+	kind["edge_next"] = 10;
 
 	kind["dirnei"] = 0;
 	kind["revnei"] = 1;
@@ -170,7 +172,7 @@ int main(int argc, char *argv[]) {
 	char filename[1000];
         for (std::map<string,int>::iterator it=kind.begin(); it!=kind.end(); ++it) {
 		
-		if (it->second == 0 || it->second == 1 || it->second == 6) {
+		if (it->second == 0 || it->second == 1 || it->second == 6 || it->second == 10) {
 			sprintf(filename, "%s/%s", basedir, it->first.c_str());
 			printf("Opening %s\n",filename);
 			f = fopen(filename, "w");
