@@ -48,10 +48,6 @@ void usage(char *argv[]) {
 // read temporal graph and populate adjlog
 void read_stdin(vector<uint> q, vector<struct change> &cv) {
 	uint a[4];
-	uint t;
-	
-	uint i;
-	t = 0;
 	uint k=0;
 	uint contacts_read=0;
 	
