@@ -22,12 +22,13 @@ vector<float> frange;
 vector<uint> rangesize;
 
 uint nodes=0;
-uint changes=0;
-uint maxtime=0;
+uint edges=0;
+uint contacts=0;
+uint lifetime=0;
 
 
 struct change {
-	uint from, to, t;
+	uint from, to, t, tend;
 };
 
 u_long rand64() {
@@ -52,23 +53,24 @@ void read_stdin(vector<uint> q, vector<struct change> &cv) {
 	uint i;
 	t = 0;
 	uint k=0;
-	uint changes_read=0;
+	uint contacts_read=0;
 	
 	struct change c;
 	while(EOF != scanf("%u %u %u %u", &a[0], &a[1], &a[2], &a[3])) {
 		if (k == q.size()) break;
 
-		if (changes_read == q[k]) {
+		if (contacts_read == q[k]) {
 			c.from = a[0];
 			c.to = a[1];
 			c.t = a[2];
+			c.tend = a[3];
 			cv.push_back(c);
 			k++;
 		}
 		
 		
-		if(changes_read%1000000==0) fprintf(stderr,"Progress: %.2f%%\r", (float)changes_read/changes*100);
-		changes_read++;
+		if(contacts_read%1000000==0) fprintf(stderr,"Progress: %.2f%%\r", (float)contacts_read/contacts*100);
+		contacts_read++;
 	}
 	
 }
@@ -121,6 +123,8 @@ int main(int argc, char *argv[]) {
 	kind["edge_strong"] = 8;
 	kind["edge_next"] = 10;
 
+	kind["snap_last"] = 9;
+
 	kind["dirnei"] = 0;
 	kind["revnei"] = 1;
 	kind["dirnei_weak"] = 2;
@@ -144,10 +148,10 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-	scanf("%u %u %u", &nodes, &changes, &maxtime);
+	scanf("%u %u %u %u", &nodes, &edges, &lifetime, &contacts);
 	
 	for( i = 0; i < frange.size(); i++) {
-		rangesize.push_back(maxtime*frange[i]);
+		rangesize.push_back(lifetime*frange[i]);
 	}
 
 	vector<uint> q;
@@ -157,10 +161,10 @@ int main(int argc, char *argv[]) {
         srand (time(NULL));
 	
 	//int totalq;
-	//totalq = nqueries*(3 + 6*frange.size()); //total of random changes
+	//totalq = nqueries*(3 + 6*frange.size()); //total of random contacts
 	for(i = 0; i < nqueries; i++) {
-		//q[i] = rand64()%changes;
-		q.push_back(rand()%changes);
+		//q[i] = rand64()%contacts;
+		q.push_back(rand()%contacts);
 	}
 	
 	sort (q.begin(), q.end()); 
@@ -177,6 +181,13 @@ int main(int argc, char *argv[]) {
 			printf("Opening %s\n",filename);
 			f = fopen(filename, "w");
 			printq(cv, it->second, 0,f);
+			fclose(f);
+		}
+		else if (it->second == 9) {
+			sprintf(filename, "%s/%s", basedir, it->first.c_str());
+			printf("Opening %s\n",filename);
+			f = fopen(filename, "w");
+			fprintf(f,"%u %u\n", it->second, lifetime-2);
 			fclose(f);
 		}
 		else {
